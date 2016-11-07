@@ -30,28 +30,30 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
+import java.io.File;
+import java.io.OutputStreamWriter;
 
 /**
  * This class generates an XML file for given data.
- *
+ * <p/>
  * The expected xml sample.
- *
+ * <p/>
  * <bookstore>
- *     <books>
- *         <book>
- *             <name>Book_A</name>
- *             <author>Author</author>
- *             <isbn>abcdef1234567</isbn>
- *         </book>
- *     </books>
+ * <books>
+ * <book>
+ * <name>Book_A</name>
+ * <author>Author</author>
+ * <isbn>abcdef1234567</isbn>
+ * </book>
+ * </books>
  * </bookstore>
- *
+ * <p/>
  * The final result will be saved in bookstore.xml and as well as will be printed to the console.
  */
 public class XMLBuilder {
 
-    public XMLBuilder(){}
+    public XMLBuilder() {
+    }
 
     public boolean buildXml() {
         try {
@@ -108,7 +110,7 @@ public class XMLBuilder {
              * Writes the result to console. (System.out)
              * */
             StreamResult res = new StreamResult(new OutputStreamWriter(System.out));
-//            transformer.transform(source, res);
+            //            transformer.transform(source, res);
 
             return true;
         } catch (TransformerConfigurationException e) {
