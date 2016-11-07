@@ -4,7 +4,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
@@ -14,3 +13,7 @@ hs_err_pid*
 fast_track.iml
 xml/*.iml
 xml/target/
+build
+bookstore.xml
+out/
+xml/bookstore.xml
