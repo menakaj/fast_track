@@ -40,7 +40,7 @@ import java.io.*;
  * <bookstore>
  *     <books>
  *         <book>
- *             <title>Book_A</title>
+ *             <name>Book_A</name>
  *             <author>Author</author>
  *             <isbn>abcdef1234567</isbn>
  *         </book>
@@ -51,63 +51,76 @@ import java.io.*;
  */
 public class XMLBuilder {
 
-    public static void main(String[] args) throws ParserConfigurationException, TransformerException, IOException {
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+    public XMLBuilder(){}
 
-        /**
-         * Starts the root element.
-         * <bookstore>
-         *
-         * </bookstore>
-         * */
-        Document doc = docBuilder.newDocument();
-        Element root = doc.createElement("bookstore");
-        doc.appendChild(root);
+    public boolean buildXml() {
+        try {
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 
-        /**
-         * Creating books element.
-         * */
-        Element books_element = doc.createElement("books");
-        root.appendChild(books_element);
+            /**
+             * Starts the root element.
+             * <bookstore>
+             *
+             * </bookstore>
+             * */
+            Document doc = docBuilder.newDocument();
+            Element root = doc.createElement("bookstore");
+            doc.appendChild(root);
 
-        /**
-         * Create individual book
-         * */
-        Element book = doc.createElement("book");
-        books_element.appendChild(book);
+            /**
+             * Creating books element.
+             * */
+            Element books_element = doc.createElement("books");
+            root.appendChild(books_element);
 
-        /**
-         * Adding book properties
-         * */
-        Element title = doc.createElement("title");
-        title.appendChild(doc.createTextNode("Book_A"));
-        book.appendChild(title);
+            /**
+             * Create individual book
+             * */
+            Element book = doc.createElement("book");
+            books_element.appendChild(book);
 
-        Element author = doc.createElement("author");
-        author.appendChild(doc.createTextNode("Author"));
-        book.appendChild(author);
+            /**
+             * Adding book properties
+             * */
+            Element title = doc.createElement("name");
+            title.appendChild(doc.createTextNode("Book_A"));
+            book.appendChild(title);
 
-        Element isbn = doc.createElement("isbn");
-        isbn.appendChild(doc.createTextNode("abcdefg123456"));
-        book.appendChild(isbn);
+            Element author = doc.createElement("author");
+            author.appendChild(doc.createTextNode("Author"));
+            book.appendChild(author);
 
-        /**
-         * Writes the content of the doc to a XML file.
-         * */
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        DOMSource source = new DOMSource(doc);
-        StreamResult result = new StreamResult(new File("bookstore.xml"));
-        transformer.transform(source, result);
+            Element isbn = doc.createElement("isbn");
+            isbn.appendChild(doc.createTextNode("abcdefg123456"));
+            book.appendChild(isbn);
 
-        /**
-         * Writes the result to console. (System.out)
-         * */
-        StreamResult res = new StreamResult(new OutputStreamWriter(System.out));
-        transformer.transform(source, res);
+            /**
+             * Writes the content of the doc to a XML file.
+             * */
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File("bookstore.xml"));
+            transformer.transform(source, result);
 
-        System.out.println("File written successfully.");
+            /**
+             * Writes the result to console. (System.out)
+             * */
+            StreamResult res = new StreamResult(new OutputStreamWriter(System.out));
+//            transformer.transform(source, res);
+
+            return true;
+        } catch (TransformerConfigurationException e) {
+            e.printStackTrace();
+            return false;
+        } catch (TransformerException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+            return false;
+        }
 
     }
 
