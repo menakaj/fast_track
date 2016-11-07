@@ -34,9 +34,15 @@ public class XMLParser extends DefaultHandler {
     private static Writer out;
     StringBuffer textBuffer;
 
+    static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+    static final String W3C_SCHEMA = "http://www.w3.org/2001/XMLSchema";
+    static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
+
     public static void main(String[] args) {
         DefaultHandler handler = new XMLParser();
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        saxParserFactory.setNamespaceAware(true);
+        saxParserFactory.setValidating(true);
 
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 
@@ -45,6 +51,8 @@ public class XMLParser extends DefaultHandler {
         try {
             out = new OutputStreamWriter(System.out, "UTF8");
             SAXParser parser = saxParserFactory.newSAXParser();
+            parser.setProperty(JAXP_SCHEMA_LANGUAGE, W3C_SCHEMA);
+            parser.setProperty(JAXP_SCHEMA_SOURCE, new File(classLoader.getResource("xsd/sample.xsd").getFile()));
             parser.parse(xml, handler);
 
         } catch (UnsupportedEncodingException e) {
