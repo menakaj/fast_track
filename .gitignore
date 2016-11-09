@@ -10,7 +10,14 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 .idea/
-fast_track.iml
-xml/*.iml
 xml/target/
 build
+*.iml
+SampleApi/src/main/resources/
+SampleApi/src/test/
+SampleApi/target/
+bookstore.xml
+out/
+xml/bookstore.xml
+xml/src/test/java/org/wso2/fast_track/xml/parser/
+xml/src/test/java/org/wso2/fast_track/xml/validator/
