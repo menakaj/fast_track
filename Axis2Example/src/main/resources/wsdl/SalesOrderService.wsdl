@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://service.axis2.wso2.org"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ax21="http://service.axis2.wso2.org/xsd"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+                  targetNamespace="http://service.axis2.wso2.org">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                   targetNamespace="http://service.axis2.wso2.org/xsd">
+            <xs:complexType name="SalesOrder">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="date" nillable="true" type="xs:date"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="itemsList" nillable="true" type="ax21:Item"/>
+                    <xs:element minOccurs="0" name="orderId" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="totalPrice" type="xs:double"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Item">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="itemId" type="xs:int"/>
+                    <xs:element minOccurs="0" name="itemName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="price" type="xs:float"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax22="http://service.axis2.wso2.org/xsd" attributeFormDefault="qualified"
+                   elementFormDefault="qualified" targetNamespace="http://service.axis2.wso2.org">
+            <xs:import namespace="http://service.axis2.wso2.org/xsd"/>
+            <xs:element name="removeItem">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="itemId" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getTotalPrice">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getTotalPriceResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="return" type="xs:double"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getSalesOrder">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getSalesOrderResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax22:SalesOrder"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="addItem">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="orderId" type="xs:int"/>
+                        <xs:element minOccurs="0" name="item" nillable="true" type="ax22:Item"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="removeItemRequest">
+        <wsdl:part name="parameters" element="ns:removeItem"/>
+    </wsdl:message>
+    <wsdl:message name="addItemRequest">
+        <wsdl:part name="parameters" element="ns:addItem"/>
+    </wsdl:message>
+    <wsdl:message name="getSalesOrderRequest">
+        <wsdl:part name="parameters" element="ns:getSalesOrder"/>
+    </wsdl:message>
+    <wsdl:message name="getSalesOrderResponse">
+        <wsdl:part name="parameters" element="ns:getSalesOrderResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getTotalPriceRequest">
+        <wsdl:part name="parameters" element="ns:getTotalPrice"/>
+    </wsdl:message>
+    <wsdl:message name="getTotalPriceResponse">
+        <wsdl:part name="parameters" element="ns:getTotalPriceResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="SalesOrderServicePortType">
+        <wsdl:operation name="removeItem">
+            <wsdl:input message="ns:removeItemRequest" wsaw:Action="urn:removeItem"/>
+        </wsdl:operation>
+        <wsdl:operation name="addItem">
+            <wsdl:input message="ns:addItemRequest" wsaw:Action="urn:addItem"/>
+        </wsdl:operation>
+        <wsdl:operation name="getSalesOrder">
+            <wsdl:input message="ns:getSalesOrderRequest" wsaw:Action="urn:getSalesOrder"/>
+            <wsdl:output message="ns:getSalesOrderResponse" wsaw:Action="urn:getSalesOrderResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getTotalPrice">
+            <wsdl:input message="ns:getTotalPriceRequest" wsaw:Action="urn:getTotalPrice"/>
+            <wsdl:output message="ns:getTotalPriceResponse" wsaw:Action="urn:getTotalPriceResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SalesOrderServiceSoap11Binding" type="ns:SalesOrderServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="removeItem">
+            <soap:operation soapAction="urn:removeItem" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="addItem">
+            <soap:operation soapAction="urn:addItem" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="getSalesOrder">
+            <soap:operation soapAction="urn:getSalesOrder" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getTotalPrice">
+            <soap:operation soapAction="urn:getTotalPrice" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="SalesOrderServiceSoap12Binding" type="ns:SalesOrderServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="removeItem">
+            <soap12:operation soapAction="urn:removeItem" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="addItem">
+            <soap12:operation soapAction="urn:addItem" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="getSalesOrder">
+            <soap12:operation soapAction="urn:getSalesOrder" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getTotalPrice">
+            <soap12:operation soapAction="urn:getTotalPrice" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="SalesOrderServiceHttpBinding" type="ns:SalesOrderServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="removeItem">
+            <http:operation location="removeItem"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="addItem">
+            <http:operation location="addItem"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+        </wsdl:operation>
+        <wsdl:operation name="getSalesOrder">
+            <http:operation location="getSalesOrder"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getTotalPrice">
+            <http:operation location="getTotalPrice"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SalesOrderService">
+        <wsdl:port name="SalesOrderServiceHttpSoap11Endpoint" binding="ns:SalesOrderServiceSoap11Binding">
+            <soap:address location="http://localhost:8080/axis2/services/SalesOrderService"/>
+        </wsdl:port>
+        <wsdl:port name="SalesOrderServiceHttpSoap12Endpoint" binding="ns:SalesOrderServiceSoap12Binding">
+            <soap12:address location="http://localhost:8080/axis2/services/SalesOrderService"/>
+        </wsdl:port>
+        <wsdl:port name="SalesOrderServiceHttpEndpoint" binding="ns:SalesOrderServiceHttpBinding">
+            <http:address location="http://localhost:8080/axis2/services/SalesOrderService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
