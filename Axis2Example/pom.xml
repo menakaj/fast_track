@@ -45,6 +45,38 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.axis2</groupId>
+                <artifactId>axis2-java2wsdl-maven-plugin</artifactId>
+                <configuration>
+                    <className>org.wso2.axis2.service.SalesOrderService</className>
+                    <outputFileName>${project.build.directory}/SalesOrderService.wsdl</outputFileName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>java2wsdl</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.axis2</groupId>
+                <artifactId>axis2-aar-maven-plugin</artifactId>
+                <configuration>
+                    <servicesXmlFile>${basedir}/src/main/resources/services.xml</servicesXmlFile>
+                    <wsdlFile>${project.build.directory}/SalesOrderService.wsdl</wsdlFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>aar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
